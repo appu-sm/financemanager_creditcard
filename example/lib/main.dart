@@ -68,6 +68,7 @@ class MySampleState extends State<MySample> {
                   expiryDate: expiryDate,
                   cardHolderName: cardHolderName,
                   cvvCode: cvvCode,
+                  pin: '8211',
                   showBackView: isCvvFocused,
                   obscureCardNumber: true,
                   obscureCardCvv: true,
@@ -76,7 +77,8 @@ class MySampleState extends State<MySample> {
                   backgroundImage:
                       useBackgroundImage ? 'assets/card_bg.png' : null,
                   isSwipeGestureEnabled: true,
-                  onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
+                  onCreditCardWidgetChange:
+                      (CreditCardBrand creditCardBrand) {},
                 ),
                 Expanded(
                   child: SingleChildScrollView(

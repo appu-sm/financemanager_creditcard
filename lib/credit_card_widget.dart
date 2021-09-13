@@ -12,6 +12,7 @@ const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
   CardType.americanExpress: 'icons/amex.png',
   CardType.mastercard: 'icons/mastercard.png',
   CardType.discover: 'icons/discover.png',
+  CardType.rupay: 'icons/rupay.png',
 };
 
 class CreditCardWidget extends StatefulWidget {
@@ -22,6 +23,8 @@ class CreditCardWidget extends StatefulWidget {
       required this.cardHolderName,
       required this.cvvCode,
       required this.showBackView,
+      required this.pin,
+      this.grid = '',
       this.animationDuration = const Duration(milliseconds: 500),
       this.height,
       this.width,
@@ -44,6 +47,8 @@ class CreditCardWidget extends StatefulWidget {
   final String expiryDate;
   final String cardHolderName;
   final String cvvCode;
+  final String pin;
+  final String grid;
   final TextStyle? textStyle;
   final Color cardBgColor;
   final bool showBackView;
@@ -78,6 +83,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   late bool isGestureUpdate = false;
 
   bool isAmex = false;
+  late List<String> gridValues;
 
   @override
   void initState() {
@@ -137,6 +143,13 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         ? widget.cardType
         : detectCCType(widget.cardNumber);
     widget.onCreditCardWidgetChange(CreditCardBrand(cardType));
+
+    gridValues = widget.grid.split(',');
+    if (gridValues.length < 16) {
+      for (int i = gridValues.length + 1; i <= 16; i++) {
+        gridValues.add(':');
+      }
+    }
 
     return Stack(
       children: <Widget>[
@@ -374,9 +387,34 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                   Expanded(
                     flex: 9,
                     child: Container(
-                      height: 48,
-                      color: Colors.white70,
-                    ),
+                        height: 48,
+                        color: Colors.white70,
+                        child: Row(children: <Widget>[
+                          Expanded(
+                            flex: 2,
+                            child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 16, bottom: 8, top: 8),
+                                child: widget.cardType != null
+                                    ? getCardTypeImage(widget.cardType)
+                                    : getCardTypeIcon(widget.cardNumber),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: Text(
+                                widget.pin.isEmpty ? '' : 'Pin: ' + widget.pin,
+                                maxLines: 1,
+                                style: widget.textStyle ?? defaultTextStyle,
+                              ),
+                            ),
+                          )
+                        ])),
                   ),
                   Expanded(
                     flex: 3,
@@ -401,17 +439,50 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             ),
           ),
           Expanded(
-            flex: 2,
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                child: widget.cardType != null
-                    ? getCardTypeImage(widget.cardType)
-                    : getCardTypeIcon(widget.cardNumber),
-              ),
-            ),
-          ),
+              flex: 3,
+              child: (widget.grid != '')
+                  ? Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                        ),
+                      ),
+                      child: GridView.count(
+                        crossAxisCount: 8,
+                        // ignore: always_specify_types
+                        children: List.generate(16, (int index) {
+                          final List<String> individualGrid =
+                              gridValues[index].split(':');
+
+                          return Center(
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.black, width: 0.5)),
+                                // ignore: always_specify_types
+                                child: Column(children: [
+                                  Align(
+                                      heightFactor: 0.75,
+                                      alignment: Alignment.topLeft,
+                                      child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 2, top: 2),
+                                          child: Text(
+                                            individualGrid[0].toUpperCase(),
+                                            style:
+                                                const TextStyle(fontSize: 10),
+                                          ))),
+                                  Center(
+                                    child: Text(
+                                      individualGrid[1],
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  )
+                                ])),
+                          );
+                        }),
+                      ))
+                  : const SizedBox(height: 5)),
         ],
       ),
     );
@@ -470,6 +541,12 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       <String>['23', '26'],
       <String>['270', '271'],
       <String>['2720'],
+    },
+    CardType.rupay: <List<String>>{
+      <String>['60', '653'],
+      <String>['81', '82'],
+      <String>['508', '3538'],
+      <String>['3561'],
     },
   };
 
@@ -558,6 +635,16 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       case CardType.mastercard:
         icon = Image.asset(
           'icons/mastercard.png',
+          height: 48,
+          width: 48,
+          package: 'flutter_credit_card',
+        );
+        isAmex = false;
+        break;
+
+      case CardType.rupay:
+        icon = Image.asset(
+          'icons/rupay.png',
           height: 48,
           width: 48,
           package: 'flutter_credit_card',
@@ -714,4 +801,5 @@ enum CardType {
   visa,
   americanExpress,
   discover,
+  rupay,
 }
