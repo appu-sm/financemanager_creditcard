@@ -469,13 +469,19 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                                               left: 2, top: 2),
                                           child: Text(
                                             individualGrid[0].toUpperCase(),
-                                            style:
-                                                const TextStyle(fontSize: 10),
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                decoration:
+                                                    TextDecoration.none),
                                           ))),
                                   Center(
                                     child: Text(
                                       individualGrid[1],
-                                      style: const TextStyle(fontSize: 16),
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          decoration: TextDecoration.none),
                                     ),
                                   )
                                 ])),
