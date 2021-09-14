@@ -13,6 +13,7 @@ const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
   CardType.mastercard: 'icons/mastercard.png',
   CardType.discover: 'icons/discover.png',
   CardType.rupay: 'icons/rupay.png',
+  CardType.mastero: 'icons/mastero.png',
 };
 
 class CreditCardWidget extends StatefulWidget {
@@ -23,7 +24,7 @@ class CreditCardWidget extends StatefulWidget {
       required this.cardHolderName,
       required this.cvvCode,
       required this.showBackView,
-      required this.pin,
+      this.pin = '',
       this.grid = '',
       this.animationDuration = const Duration(milliseconds: 500),
       this.height,
@@ -144,10 +145,12 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         : detectCCType(widget.cardNumber);
     widget.onCreditCardWidgetChange(CreditCardBrand(cardType));
 
-    gridValues = widget.grid.split(',');
-    if (gridValues.length < 16) {
-      for (int i = gridValues.length + 1; i <= 16; i++) {
-        gridValues.add(':');
+    if (widget.grid != null) {
+      gridValues = widget.grid.split(',');
+      if (gridValues.length < 16) {
+        for (int i = gridValues.length + 1; i <= 16; i++) {
+          gridValues.add(':');
+        }
       }
     }
 
@@ -440,7 +443,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           ),
           Expanded(
               flex: 3,
-              child: (widget.grid != '')
+              child: (widget.grid != '' && widget.grid != null)
                   ? Container(
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -542,16 +545,25 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     },
     CardType.mastercard: <List<String>>{
       <String>['51', '55'],
-      <String>['2221', '2229'],
-      <String>['223', '229'],
-      <String>['23', '26'],
-      <String>['270', '271'],
-      <String>['2720'],
+      <String>['2221', '2720'],
+      <String>['56', '58'],
+    },
+    CardType.mastero: <List<String>>{
+      <String>['5018'],
+      <String>['5020'],
+      <String>['5038'],
+      <String>['5893'],
+      <String>['6304'],
+      <String>['6759'],
+      <String>['6761', '6763'],
     },
     CardType.rupay: <List<String>>{
-      <String>['60', '653'],
-      <String>['81', '82'],
-      <String>['508', '3538'],
+      <String>['60'],
+      <String>['652'],
+      <String>['81'],
+      <String>['82'],
+      <String>['508'],
+      <String>['3538'],
       <String>['3561'],
     },
   };
@@ -641,6 +653,16 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       case CardType.mastercard:
         icon = Image.asset(
           'icons/mastercard.png',
+          height: 48,
+          width: 48,
+          package: 'flutter_credit_card',
+        );
+        isAmex = false;
+        break;
+
+      case CardType.mastero:
+        icon = Image.asset(
+          'icons/mastero.png',
           height: 48,
           width: 48,
           package: 'flutter_credit_card',
@@ -807,5 +829,6 @@ enum CardType {
   visa,
   americanExpress,
   discover,
+  mastero,
   rupay,
 }
