@@ -411,7 +411,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                             child: Padding(
                               padding: const EdgeInsets.all(5),
                               child: Text(
-                                widget.pin.isEmpty ? '' : 'Pin: ' + widget.pin,
+                                (widget.pin == null || widget.pin.isEmpty)
+                                    ? ''
+                                    : 'Pin: ' + widget.pin,
                                 maxLines: 1,
                                 style: widget.textStyle ?? defaultTextStyle,
                               ),
