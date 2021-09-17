@@ -457,7 +457,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                         // ignore: always_specify_types
                         children: List.generate(16, (int index) {
                           final List<String> individualGrid =
-                              gridValues[index].split(':');
+                              gridValues[index].split('-');
 
                           return Center(
                             child: Container(
