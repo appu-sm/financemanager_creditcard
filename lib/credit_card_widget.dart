@@ -146,10 +146,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     widget.onCreditCardWidgetChange(CreditCardBrand(cardType));
 
     if (widget.grid != null) {
-      gridValues = widget.grid.split(',');
+      gridValues = widget.grid.split(';');
       if (gridValues.length < 16) {
         for (int i = gridValues.length + 1; i <= 16; i++) {
-          gridValues.add(':');
+          gridValues.add('-');
         }
       }
     }
