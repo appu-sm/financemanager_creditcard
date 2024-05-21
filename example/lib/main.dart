@@ -62,8 +62,7 @@ class MySampleState extends State<MySample> {
                   height: 30,
                 ),
                 CreditCardWidget(
-                  glassmorphismConfig:
-                      useGlassMorphism ? Glassmorphism.defaultConfig() : null,
+                  glassmorphismConfig: useGlassMorphism ? Glassmorphism.defaultConfig() : null,
                   cardNumber: cardNumber,
                   expiryDate: expiryDate,
                   cardHolderName: cardHolderName,
@@ -73,11 +72,9 @@ class MySampleState extends State<MySample> {
                   obscureCardCvv: true,
                   isHolderNameVisible: true,
                   cardBgColor: Colors.red,
-                  backgroundImage:
-                      useBackgroundImage ? 'assets/card_bg.png' : null,
+                  backgroundImage: useBackgroundImage ? 'assets/card_bg.png' : null,
                   isSwipeGestureEnabled: true,
-                  onCreditCardWidgetChange:
-                      (CreditCardBrand creditCardBrand) {},
+                  onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
                 ),
                 Expanded(
                   child: SingleChildScrollView(
@@ -182,7 +179,7 @@ class MySampleState extends State<MySample> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            primary: const Color(0xff1b447b),
+                            foregroundColor: const Color(0xff1b447b),
                           ),
                           child: Container(
                             margin: const EdgeInsets.all(12),

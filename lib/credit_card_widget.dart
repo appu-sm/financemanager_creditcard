@@ -74,8 +74,7 @@ class CreditCardWidget extends StatefulWidget {
   _CreditCardWidgetState createState() => _CreditCardWidgetState();
 }
 
-class _CreditCardWidgetState extends State<CreditCardWidget>
-    with SingleTickerProviderStateMixin {
+class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> _frontRotation;
   late Animation<double> _backRotation;
@@ -140,17 +139,14 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       isGestureUpdate = false;
     }
 
-    final CardType? cardType = widget.cardType != null
-        ? widget.cardType
-        : detectCCType(widget.cardNumber);
+    final CardType? cardType =
+        widget.cardType != null ? widget.cardType : detectCCType(widget.cardNumber);
     widget.onCreditCardWidgetChange(CreditCardBrand(cardType));
 
-    if (widget.grid != null) {
-      gridValues = widget.grid.split(';');
-      if (gridValues.length < 16) {
-        for (int i = gridValues.length + 1; i <= 16; i++) {
-          gridValues.add('-');
-        }
+    gridValues = widget.grid.split(';');
+    if (gridValues.length < 16) {
+      for (int i = gridValues.length + 1; i <= 16; i++) {
+        gridValues.add('-');
       }
     }
 
@@ -200,8 +196,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       _frontRotation = TweenSequence<double>(
         <TweenSequenceItem<double>>[
           TweenSequenceItem<double>(
-            tween: Tween<double>(
-                    begin: 0.0, end: rotateToLeft ? (pi / 2) : (-pi / 2))
+            tween: Tween<double>(begin: 0.0, end: rotateToLeft ? (pi / 2) : (-pi / 2))
                 .chain(CurveTween(curve: Curves.linear)),
             weight: 50.0,
           ),
@@ -220,9 +215,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             weight: 50.0,
           ),
           TweenSequenceItem<double>(
-            tween: Tween<double>(
-                    begin: rotateToLeft ? (-pi / 2) : (pi / 2), end: 0.0)
-                .chain(
+            tween: Tween<double>(begin: rotateToLeft ? (-pi / 2) : (pi / 2), end: 0.0).chain(
               CurveTween(curve: Curves.linear),
             ),
             weight: 50.0,
@@ -237,15 +230,14 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   /// Card number, Exp. year and Card holder name
   ///
   Widget _buildFrontContainer() {
-    final TextStyle defaultTextStyle =
-        Theme.of(context).textTheme.headline6!.merge(
-              const TextStyle(
-                color: Colors.white,
-                fontFamily: 'halter',
-                fontSize: 16,
-                package: 'flutter_credit_card',
-              ),
-            );
+    final TextStyle defaultTextStyle = Theme.of(context).textTheme.headlineMedium!.merge(
+          const TextStyle(
+            color: Colors.white,
+            fontFamily: 'halter',
+            fontSize: 16,
+            package: 'flutter_credit_card',
+          ),
+        );
 
     final String number = widget.obscureCardNumber
         ? widget.cardNumber.replaceAll(RegExp(r'(?<=.{4})\d(?=.{4})'), '*')
@@ -308,15 +300,12 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                 children: <Widget>[
                   Text(
                     'VALID\nTHRU',
-                    style: widget.textStyle ??
-                        defaultTextStyle.copyWith(fontSize: 7),
+                    style: widget.textStyle ?? defaultTextStyle.copyWith(fontSize: 7),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(width: 5),
                   Text(
-                    widget.expiryDate.isEmpty
-                        ? widget.labelExpiredDate
-                        : widget.expiryDate,
+                    widget.expiryDate.isEmpty ? widget.labelExpiredDate : widget.expiryDate,
                     style: widget.textStyle ?? defaultTextStyle,
                   ),
                 ],
@@ -329,9 +318,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
                 child: Text(
-                  widget.cardHolderName.isEmpty
-                      ? widget.labelCardHolder
-                      : widget.cardHolderName,
+                  widget.cardHolderName.isEmpty ? widget.labelCardHolder : widget.cardHolderName,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: widget.textStyle ?? defaultTextStyle,
@@ -348,19 +335,17 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   /// Builds a back container containing cvv
   ///
   Widget _buildBackContainer() {
-    final TextStyle defaultTextStyle =
-        Theme.of(context).textTheme.headline6!.merge(
-              const TextStyle(
-                color: Colors.black,
-                fontFamily: 'halter',
-                fontSize: 16,
-                package: 'flutter_credit_card',
-              ),
-            );
+    final TextStyle defaultTextStyle = Theme.of(context).textTheme.headlineMedium!.merge(
+          const TextStyle(
+            color: Colors.black,
+            fontFamily: 'halter',
+            fontSize: 16,
+            package: 'flutter_credit_card',
+          ),
+        );
 
-    final String cvv = widget.obscureCardCvv
-        ? widget.cvvCode.replaceAll(RegExp(r'\d'), '*')
-        : widget.cvvCode;
+    final String cvv =
+        widget.obscureCardCvv ? widget.cvvCode.replaceAll(RegExp(r'\d'), '*') : widget.cvvCode;
 
     return CardBackground(
       backgroundImage: widget.backgroundImage,
@@ -398,8 +383,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                             child: Align(
                               alignment: Alignment.bottomLeft,
                               child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8, right: 16, bottom: 8, top: 8),
+                                padding:
+                                    const EdgeInsets.only(left: 8, right: 16, bottom: 8, top: 8),
                                 child: widget.cardType != null
                                     ? getCardTypeImage(widget.cardType)
                                     : getCardTypeIcon(widget.cardNumber),
@@ -411,9 +396,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                             child: Padding(
                               padding: const EdgeInsets.all(5),
                               child: Text(
-                                (widget.pin == null || widget.pin.isEmpty)
-                                    ? ''
-                                    : 'Pin: ' + widget.pin,
+                                (widget.pin.isEmpty) ? '' : 'Pin: ' + widget.pin,
                                 maxLines: 1,
                                 style: widget.textStyle ?? defaultTextStyle,
                               ),
@@ -445,7 +428,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           ),
           Expanded(
               flex: 3,
-              child: (widget.grid != '' && widget.grid != null)
+              child: (widget.grid != '')
                   ? Container(
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -456,29 +439,25 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                         crossAxisCount: 8,
                         // ignore: always_specify_types
                         children: List.generate(16, (int index) {
-                          final List<String> individualGrid =
-                              gridValues[index].split('-');
+                          final List<String> individualGrid = gridValues[index].split('-');
 
                           return Center(
                             child: Container(
                                 decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.black, width: 0.5)),
+                                    border: Border.all(color: Colors.black, width: 0.5)),
                                 // ignore: always_specify_types
                                 child: Column(children: [
                                   Align(
                                       heightFactor: 0.75,
                                       alignment: Alignment.topLeft,
                                       child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 2, top: 2),
+                                          padding: const EdgeInsets.only(left: 2, top: 2),
                                           child: Text(
                                             individualGrid[0].toUpperCase(),
                                             style: const TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 10,
-                                                decoration:
-                                                    TextDecoration.none),
+                                                decoration: TextDecoration.none),
                                           ))),
                                   Center(
                                     child: Text(
@@ -530,8 +509,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   /// Credit Card prefix patterns as of March 2019
   /// A [List<String>] represents a range.
   /// i.e. ['51', '55'] represents the range of cards starting with '51' to those starting with '55'
-  Map<CardType, Set<List<String>>> cardNumPatterns =
-      <CardType, Set<List<String>>>{
+  Map<CardType, Set<List<String>>> cardNumPatterns = <CardType, Set<List<String>>>{
     CardType.visa: <List<String>>{
       <String>['4'],
     },
@@ -584,8 +562,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       (CardType type, Set<List<String>> patterns) {
         for (List<String> patternRange in patterns) {
           // Remove any spaces
-          String ccPatternStr =
-              cardNumber.replaceAll(RegExp(r'\s+\b|\b\s'), '');
+          String ccPatternStr = cardNumber.replaceAll(RegExp(r'\s+\b|\b\s'), '');
           final int rangeLen = patternRange[0].length;
           // Trim the Credit Card number string to match the pattern prefix length
           if (rangeLen < cardNumber.length) {
@@ -706,8 +683,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
 }
 
 class MaskedTextController extends TextEditingController {
-  MaskedTextController(
-      {String? text, required this.mask, Map<String, RegExp>? translator})
+  MaskedTextController({String? text, required this.mask, Map<String, RegExp>? translator})
       : super(text: text) {
     this.translator = translator ?? MaskedTextController.getDefaultTranslator();
 

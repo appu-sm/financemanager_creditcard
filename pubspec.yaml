@@ -1,12 +1,11 @@
 name: flutter_credit_card
 description: A Credit Card widget package, support entering card details, card flip animation.
-version: 2.0.0
-author: Aravinth<aravinth_sm@yahoo.co.in>
+version: 3.0.0
 homepage: https://github.com/appu-sm/financemanager_creditcard
 issue_tracker: https://github.com/appu-sm/financemanager_creditcard/issues
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=3.4.0 <4.0.0'
 
 dependencies:
   flutter:
